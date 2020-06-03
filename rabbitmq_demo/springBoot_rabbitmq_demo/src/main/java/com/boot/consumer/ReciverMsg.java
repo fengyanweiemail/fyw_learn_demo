@@ -4,7 +4,6 @@ import com.rabbitmq.client.Channel;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
 /**
