@@ -1,0 +1,26 @@
+server:
+  port: 8182
+spring:
+  rabbitmq:
+    addresses: 127.0.0.1:5672
+    password: guest
+    username: guest
+    virtual-host: /
+    connection-timeout: 1500
+#####设置生产者方面的
+    #开启消息不可路由监听，下面的mandatory必须设置为true
+    publisher-returns: true
+    #开启confirmselect
+    publisher-confirms: true
+    #要接收不可路由的消息必须设置为true，否则broker直接删除
+    template:
+      mandatory: true
+    #另外开启重如队列的话，可以设置重入次数、超时时间、间隔时间等等
+
+#####设置消费者方面的
+    listener:
+      simple:
+        acknowledge-mode: manual #设置手工签收，但是不建议重回队列
+        prefetch: 1 #最大未确认数
+        concurrency: 1
+        max-concurrency: 5

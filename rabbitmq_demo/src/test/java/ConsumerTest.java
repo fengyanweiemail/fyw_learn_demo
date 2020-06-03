@@ -223,6 +223,5 @@ public class ConsumerTest {
          * channel.basicAck("111",);
          */
 
-
     }
 }

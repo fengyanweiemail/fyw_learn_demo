@@ -51,7 +51,7 @@ public class ConsumerConfig {
          * 进行一些消费者的设置
          */
         container.setQueueNames("springBean_queue","springBean_queue1");
-        //设置最小最大的消费者个数
+        //设置最小最大的消费者个数-（当数量小于队列数的话取队列个数）
         container.setConcurrentConsumers(1);
         container.setMaxConcurrentConsumers(5);
         //设置消费者标签生成的策略
@@ -85,7 +85,7 @@ public class ConsumerConfig {
         MessageListenerAdapter messageAdapter = new MessageListenerAdapter(new MessageConsumerAdapter());
         //设置默认方法名
         messageAdapter.setDefaultListenerMethod("handleMessageStr");
-        //添加消息转换器
+        //添加消息转换器(ContentTypeDelegatingMessageConverter 全局转换器)
         MessageConverter messageConverter = new MessageConverter() {
             /**
              *

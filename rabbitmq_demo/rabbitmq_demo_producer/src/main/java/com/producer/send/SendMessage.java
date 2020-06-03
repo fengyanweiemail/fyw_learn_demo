@@ -61,7 +61,7 @@ public class SendMessage implements RabbitTemplate.ConfirmCallback,RabbitTemplat
         /**
          * new CorrelationData("123") 消息的唯一主键（代表的是发送消息的唯一性id，用来confirm）
          */
-        rabbitTemplate.convertAndSend("springBean_exchange1", "springBean.abc", message, new MessagePostProcessor() {
+        rabbitTemplate.convertAndSend("springBean_exchange1", "springBean123.abc", message, new MessagePostProcessor() {
             @Override
             public Message postProcessMessage(Message message) throws AmqpException {
                 //对发送的消息再做一次封装
@@ -100,6 +100,6 @@ public class SendMessage implements RabbitTemplate.ConfirmCallback,RabbitTemplat
      */
     @Override
     public void returnedMessage(Message message, int i, String s, String s1, String s2) {
-        System.out.println(new String(message.getBody())+"--"+i+"---"+s+"-----"+s1+"-----"+s2);
+        System.out.println("11111111111"+new String(message.getBody())+"--"+i+"---"+s+"-----"+s1+"-----"+s2);
     }
 }

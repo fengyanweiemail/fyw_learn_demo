@@ -76,6 +76,8 @@ public class RabbitMqConfig {
         //注入实现1（最好写在这里，注解单例的）
         //rabbitTemplate.setConfirmCallback(new SendMessage());
         //rabbitTemplate.setReturnCallback(new SendMessage());
+        //添加returnLisenter的时候此处必须设置为true(mandatory：设置为true，如果为false，broker直接就删除了不可路由的消息)
+        //rabbitTemplate.setMandatory(true);
         //这是一种写法
         /*rabbitTemplate.setConfirmCallback(new RabbitTemplate.ConfirmCallback(){
             @Override
