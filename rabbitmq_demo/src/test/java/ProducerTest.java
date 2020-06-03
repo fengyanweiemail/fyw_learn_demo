@@ -87,14 +87,14 @@ public class ProducerTest {
 
         channel.addConfirmListener(new ConfirmListener() {
             @Override
-            public void handleAck(long l, boolean b) throws IOException {
+            public void handleNack(long l, boolean b) throws IOException {
                 //l：代表了全局消息的唯一id，在发送消息的时候是要传过去的
                 //失败进入的方法
                 System.out.println("--------------No ack----------------");
             }
 
             @Override
-            public void handleNack(long l, boolean b) throws IOException {
+            public void handleAck(long l, boolean b) throws IOException {
                 //成功进入的方法
                 System.out.println("--------------ack----------------");
             }
