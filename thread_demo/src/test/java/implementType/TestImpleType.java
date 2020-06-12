@@ -1,17 +1,24 @@
 package implementType;
 
+import com.alibaba.fastjson.JSONObject;
 import com.thread.ThreadApplication;
 import com.thread.implementType.MyCallAble;
 import com.thread.implementType.MyExecutor;
 import com.thread.implementType.MyRunable;
 import com.thread.implementType.MyThread;
+import com.thread.secDemo.SecBusinessComponet;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by fyw on 2020/6/1.
@@ -103,6 +110,88 @@ public class TestImpleType {
          * 打印结果
          * 1---2----123_---2
          */
+
+    }
+
+
+    @Autowired
+    RedisTemplate redisTemplate;
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+
+    @Test
+    public void t(){
+        for(int i=0;i<100;i++){
+            redisTemplate.boundListOps(SecBusinessComponet.LIST).leftPush("A_GOOD");
+        }
+        stringRedisTemplate.opsForValue().set("count","100");
+        //System.out.println(stringRedisTemplate.boundValueOps("count").increment(-1));
+        //System.out.println(redisTemplate.boundListOps(SecBusinessComponet.LIST).rightPop());
+    }
+
+
+    @Autowired
+    SecBusinessComponet secBusinessComponet;
+    CyclicBarrier cyclicBarrier = new CyclicBarrier(1);
+
+    @Test
+    public void testSecc(){
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        cyclicBarrier.await();
+                    }catch (Exception e){
+
+                    }
+                    int a = ThreadLocalRandom.current().nextInt(100);
+                    JSONObject json = secBusinessComponet.secDemo("C_"+ a,"GOOD");
+                    System.out.println(json);
+                }
+            },1+"").start();
+
+        /*int a = ThreadLocalRandom.current().nextInt(100);
+        JSONObject jsonObject = secBusinessComponet.secDemo("C_"+ a,"GOOD");
+        System.out.println(jsonObject);*/
+
+
+    }
+
+    @Test
+    public void testSecc111(){
+        for(int i=0;i<1000;i++){
+            new Thread(()->{
+                try {
+                    cyclicBarrier.await();
+                }catch (Exception e){
+
+                }
+                int a = ThreadLocalRandom.current().nextInt(100);
+                JSONObject json = secBusinessComponet.secDemo("C_"+ a,"GOOD");
+                System.out.println(json);
+            }).start();
+        }
+
+        try{
+            Thread.sleep(100000000);
+            Thread.sleep(100000000);
+            Thread.sleep(100000000);
+            Thread.sleep(100000000);
+            Thread.sleep(100000000);
+            Thread.sleep(100000000);
+            Thread.sleep(100000000);
+            Thread.sleep(100000000);
+        }catch (Exception e){
+
+        }
+
+
+
+        /*int a = ThreadLocalRandom.current().nextInt(100);
+        JSONObject jsonObject = secBusinessComponet.secDemo("C_"+ a,"GOOD");
+        System.out.println(jsonObject);*/
+
 
     }
 }
